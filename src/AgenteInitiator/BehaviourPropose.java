@@ -11,7 +11,13 @@ public class BehaviourPropose extends Behaviour {
 
     private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
     private int comidaActual = 0;
+    private AID idReceptor;
     String comidaPropuesta = "";
+
+
+    public BehaviourPropose (AID aid){
+        this.idReceptor = aid;
+    }
 
     @Override
     public void action() {
@@ -23,10 +29,10 @@ public class BehaviourPropose extends Behaviour {
             comidaPropuesta = comidas[0];
             comidaActual = 1;
         }
-        System.out.println("Propongo: " + comidaPropuesta);
+        System.out.println("Menu propuesto: " + comidaPropuesta);
 
         ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
-        prop.addReceiver(new AID ("AR", AID.ISLOCALNAME));
+        prop.addReceiver(idReceptor); // El agente receptor debe llamarse AR
         prop.setConversationId("CONV-" + myAgent.getName());
         prop.setReplyWith(myAgent.getName() + System.currentTimeMillis());
         prop.setContent(comidaPropuesta);

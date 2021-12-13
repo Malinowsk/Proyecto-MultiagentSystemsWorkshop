@@ -18,7 +18,7 @@ public class BehaviourReceive extends Behaviour {
                 MessageTemplate.MatchInReplyTo(msgDataStore.getReplyWith())));
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
-            System.out.println("Mensaje recibido " + msg.getContent());
+            System.out.println("Respuesta del cliente: " + msg.getContent());
             recibido = true;
 
             if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {

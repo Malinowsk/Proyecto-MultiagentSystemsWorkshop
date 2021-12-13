@@ -13,16 +13,16 @@ public class FSMResponder extends FSMBehaviour {
         eRes.setDataStore(ds);
         BehaviourFin eFin = new BehaviourFin();
         eFin.setDataStore(ds);
-        this.registerFirstState(eRecive, "Recive");
+        this.registerFirstState(eRecive, "Receive");
         this.registerState(eRes, "Responder");
         this.registerLastState(eFin, "Fin");
 
         // TRANSICIONES
-        String[] toReset = {"Recive"};
+        String[] toReset = {"Receive"};
 
-        this.registerDefaultTransition("Recive", "Responder", toReset);
+        this.registerDefaultTransition("Receive", "Responder", toReset);
 
-        this.registerTransition("Responder", "Recive", 1);
+        this.registerTransition("Responder", "Receive", 1);
         this.registerTransition("Responder", "Fin", 0);
 
     }

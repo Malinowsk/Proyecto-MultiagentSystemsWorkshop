@@ -13,7 +13,6 @@ public class BehaviourReceive extends Behaviour {
         ACLMessage msg = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
-            System.out.println("Mensaje recibido " + msg.getContent());
             recibido = true;
             this.getDataStore().put("Mensaje entrante", msg);
         }else{
