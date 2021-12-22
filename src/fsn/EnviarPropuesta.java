@@ -1,13 +1,10 @@
-package AgenteInitiator;
+package fsn;
 
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 
-import java.util.ArrayList;
-
-public class BehaviourPropose extends Behaviour {
+public class EnviarPropuesta extends Behaviour {   // Clase que representa el comportamiento de enviar una propuesta
 
     private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
     private int comidaActual = 0;
@@ -15,7 +12,7 @@ public class BehaviourPropose extends Behaviour {
     String comidaPropuesta = "";
 
 
-    public BehaviourPropose (AID aid){
+    public EnviarPropuesta (AID aid){ // contructor recibe como parametro el id del que recibe la propuesta
         this.idReceptor = aid;
     }
 
@@ -32,7 +29,7 @@ public class BehaviourPropose extends Behaviour {
         System.out.println("Menu propuesto: " + comidaPropuesta);
 
         ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
-        prop.addReceiver(idReceptor);
+        prop.addReceiver(idReceptor);                           // El agente receptor debe llamarse AR
         prop.setConversationId("CONV-" + myAgent.getName());
         prop.setReplyWith(myAgent.getName() + System.currentTimeMillis());
         prop.setContent(comidaPropuesta);
@@ -47,3 +44,4 @@ public class BehaviourPropose extends Behaviour {
         return true;
     }
 }
+

@@ -1,10 +1,10 @@
-package AgenteInitiator;
+package fsn;
 
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class BehaviourReceive extends Behaviour {
+public class EsperarRespuesta extends Behaviour {
 
     boolean recibido = false;
     int event = 0;
@@ -35,15 +35,15 @@ public class BehaviourReceive extends Behaviour {
     @Override
     public void reset() {
         recibido = false;
-    } // recetear
+    }
 
     @Override
     public boolean done() {
         return recibido;
-    } // para saber si termina o no.
+    }
 
     @Override
     public int onEnd() {
         return event;
-    }   // ls condicion
+    }
 }
