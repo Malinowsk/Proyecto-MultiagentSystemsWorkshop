@@ -23,8 +23,6 @@ public class AgenteResponder extends Agent {
         catch (FIPAException fe){
             fe.printStackTrace();
         }
-
-        //addBehaviour(new FSMResponder());
     }
 
     @Override
