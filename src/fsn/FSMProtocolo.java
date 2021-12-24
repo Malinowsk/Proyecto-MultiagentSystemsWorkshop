@@ -39,7 +39,7 @@ public class FSMProtocolo extends FSMBehaviour{
     private void crearFSM(DataStore ds, boolean ini) {
 
         // Instanciamos los comportamientos
-        EnviarPropuesta enviar_propuesta = new EnviarPropuesta((AID) getDataStore().get(FSMProtocolo.AID_OPONENTE));
+        EnviarPropuesta enviar_propuesta = new EnviarPropuesta();
         enviar_propuesta.setDataStore(ds);
 
         EsperarRespuesta esperar_respuesta = new EsperarRespuesta();
@@ -101,8 +101,8 @@ public class FSMProtocolo extends FSMBehaviour{
         this.registerTransition(ESPERAR_PROPUESTA, EVALUAR_PROPUESTA, 0); // Recibi propuesta
         this.registerTransition(ESPERAR_PROPUESTA, CONFLICTO, 1); // Recibi Cancel
 
-        this.registerTransition(EVALUAR_PROPUESTA, ENVIAR_ZEUTHEN, 0); // Reject
-        this.registerTransition(EVALUAR_PROPUESTA, ACUERDO, 1); // Accept
+        this.registerTransition(EVALUAR_PROPUESTA, ENVIAR_ZEUTHEN, 1); // Reject
+        this.registerTransition(EVALUAR_PROPUESTA, ACUERDO, 0); // Accept
 
 
     }

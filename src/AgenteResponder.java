@@ -1,5 +1,5 @@
-package AgenteResponder;
-
+import fsn.EsperarPropuestaInicial;
+import fsn.FSMProtocolo;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -9,7 +9,7 @@ import jade.domain.FIPAException;
 public class AgenteResponder extends Agent {
 
     protected void setup() {
-        this.addBehaviour(new FSMResponder());
+        this.addBehaviour(new EsperarPropuestaInicial());
 
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());

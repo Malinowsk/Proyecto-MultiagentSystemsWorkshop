@@ -24,6 +24,7 @@ public class EsperarRespuesta extends Behaviour {
             if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
                 event = 0;
             } else {
+                this.getDataStore().put("Mensaje entrante", msg);
                 event = 1;
             }
 
@@ -35,15 +36,15 @@ public class EsperarRespuesta extends Behaviour {
     @Override
     public void reset() {
         recibido = false;
-    }
+    } // recetear
 
     @Override
     public boolean done() {
         return recibido;
-    }
+    } // para saber si termina o no.
 
     @Override
     public int onEnd() {
         return event;
-    }
+    }   // ls condicion
 }

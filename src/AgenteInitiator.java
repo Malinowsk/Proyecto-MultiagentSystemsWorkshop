@@ -1,6 +1,4 @@
-package AgenteInitiator;
-
-import AgenteResponder.FSMResponder;
+import fsn.FSMProtocolo;
 import FIPA.AgentID;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -13,7 +11,6 @@ import jade.proto.SubscriptionInitiator;
 public class AgenteInitiator extends Agent {
 
     protected void setup() {
-        //this.addBehaviour(new FSMInitiator());
 
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
@@ -23,7 +20,7 @@ public class AgenteInitiator extends Agent {
         try{
             DFAgentDescription[] result = DFService.search(this, template);
             if (result.length > 0){
-                addBehaviour(new FSMInitiator(result[0].getName()));
+                addBehaviour(new FSMProtocolo(result[0].getName()));
             }
             else {
                 addBehaviour(new SubscriptionInitiator(this,
@@ -33,7 +30,7 @@ public class AgenteInitiator extends Agent {
                         try {
                             DFAgentDescription[] result = DFService.decodeNotification(inform.getContent());
                             if (result[0].getAllServices().hasNext())
-                                addBehaviour(new FSMInitiator(result[0].getName()));
+                                addBehaviour(new FSMProtocolo(result[0].getName()));
                         } catch (FIPAException fe) { fe.printStackTrace();}
                     }
                 });
