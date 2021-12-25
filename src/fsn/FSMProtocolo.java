@@ -19,18 +19,26 @@ public class FSMProtocolo extends FSMBehaviour{
     private static final String CONFLICTO = null;
 
     // INICIATOR
-    public FSMProtocolo(AID aid) {
+    public FSMProtocolo(AID aid, String[] comidas, Integer[] utilidades) {
         DataStore ds = new DataStore();
+
         ds.put(AID_OPONENTE, aid);
+
+        ds.put("ArregloComidas", comidas);
+        ds.put("ArregloUtilidades", utilidades);
 
         this.crearFSM(ds, true);
 
     }
 
     // RESPONDER
-    public FSMProtocolo(ACLMessage proposeInicial) {
+    public FSMProtocolo(ACLMessage proposeInicial, String[] comidas, Integer[] utilidades) {
         DataStore ds = new DataStore();
+
         ds.put(REQUEST_INITIAL, proposeInicial);
+
+        ds.put("ArregloComidas", comidas);
+        ds.put("ArregloUtilidades", utilidades);
 
         this.crearFSM(ds, false);
 
@@ -87,16 +95,18 @@ public class FSMProtocolo extends FSMBehaviour{
 
         // Definir transiciones
 
+        String[] ToReset = {RECIBIR_ZEUTHEN};
+
         this.registerTransition(ENVIAR_PROPUESTA, ESPERAR_RESPUESTA, 0);
         this.registerTransition(ENVIAR_PROPUESTA, CONFLICTO, 1); // No tengo más propuestas y debo conceder
 
-        this.registerTransition(ESPERAR_RESPUESTA, ENVIAR_ZEUTHEN, 0); // Reject
-        this.registerTransition(ESPERAR_RESPUESTA, ACUERDO, 1); // Accept
+        this.registerTransition(ESPERAR_RESPUESTA, ENVIAR_ZEUTHEN, 1); // Reject
+        this.registerTransition(ESPERAR_RESPUESTA, ACUERDO, 0); // Accept
 
         this.registerDefaultTransition(ENVIAR_ZEUTHEN, RECIBIR_ZEUTHEN);
 
-        this.registerTransition(RECIBIR_ZEUTHEN, ESPERAR_PROPUESTA, 0); // Mi Z es Mayor
-        this.registerTransition(RECIBIR_ZEUTHEN, ENVIAR_PROPUESTA, 1); // Mi Z es Menor
+        this.registerTransition(RECIBIR_ZEUTHEN, ESPERAR_PROPUESTA, 1,ToReset); // Mi Z es Mayor
+        this.registerTransition(RECIBIR_ZEUTHEN, ENVIAR_PROPUESTA, 0,ToReset); // Mi Z es Menor
 
         this.registerTransition(ESPERAR_PROPUESTA, EVALUAR_PROPUESTA, 0); // Recibi propuesta
         this.registerTransition(ESPERAR_PROPUESTA, CONFLICTO, 1); // Recibi Cancel

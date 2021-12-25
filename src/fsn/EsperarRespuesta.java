@@ -25,6 +25,7 @@ public class EsperarRespuesta extends Behaviour {
                 event = 0;
             } else {
                 this.getDataStore().put("Mensaje entrante", msg);
+                this.getDataStore().put("PropuestaDelOtro", msg.getContent());
                 event = 1;
             }
 

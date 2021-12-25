@@ -10,6 +10,10 @@ import jade.proto.SubscriptionInitiator;
 
 public class AgenteInitiator extends Agent {
 
+    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
+    private Integer[] utilidades = {5,4,2,1};
+
+
     protected void setup() {
 
         DFAgentDescription template = new DFAgentDescription();
@@ -20,7 +24,7 @@ public class AgenteInitiator extends Agent {
         try{
             DFAgentDescription[] result = DFService.search(this, template);
             if (result.length > 0){
-                addBehaviour(new FSMProtocolo(result[0].getName()));
+                addBehaviour(new FSMProtocolo(result[0].getName(),comidas,utilidades));
             }
             else {
                 addBehaviour(new SubscriptionInitiator(this,
@@ -30,7 +34,7 @@ public class AgenteInitiator extends Agent {
                         try {
                             DFAgentDescription[] result = DFService.decodeNotification(inform.getContent());
                             if (result[0].getAllServices().hasNext())
-                                addBehaviour(new FSMProtocolo(result[0].getName()));
+                                addBehaviour(new FSMProtocolo(result[0].getName(),comidas,utilidades));
                         } catch (FIPAException fe) { fe.printStackTrace();}
                     }
                 });

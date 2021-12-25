@@ -1,11 +1,14 @@
 package fsn;
 
-import fsm.MCPBehaviour;
+import fsn.FSMProtocolo;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 public class EsperarPropuestaInicial extends Behaviour {
+
+    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
+    private Integer[] utilidades = {7,4,2,2};
 
     @Override
     public void action() {
@@ -16,7 +19,7 @@ public class EsperarPropuestaInicial extends Behaviour {
 
         if (prop_ini != null) {
             this.getDataStore().put("Mensaje entrante", prop_ini);
-            myAgent.addBehaviour(new MCPBehaviour(false, prop_ini));
+            myAgent.addBehaviour(new FSMProtocolo(prop_ini,comidas,utilidades));
         }
         else
             block();

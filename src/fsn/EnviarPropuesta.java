@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public class EnviarPropuesta extends Behaviour {
 
-    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
+    private String[] comidas;
+    private Integer event = 0;
     private int comidaActual = 0;
     private AID idReceptor;
     String comidaPropuesta = "";
@@ -23,24 +24,22 @@ public class EnviarPropuesta extends Behaviour {
         {
             idReceptor = (AID) getDataStore().get(FSMProtocolo.AID_OPONENTE);
         }
-        // si el ds tiene la clave del receptor , se asigna la id, sino Esprimera vale false
+        comidas = (String[]) getDataStore().get("ArregloComidas");
     }
 
     @Override
     public void action() {
 
-
+        if (comidaActual < comidas.length){
+            comidaPropuesta = comidas[comidaActual];
+            comidaActual++;
+        }else{
+            event = 1;
+        }
+        System.out.println("Menu propuesto: " + comidaPropuesta);
+        getDataStore().put("IndiceComidas", comidaActual);
 
         if(esPropuestaInicial){
-
-            if (comidaActual < comidas.length){
-                comidaPropuesta = comidas[comidaActual];
-                comidaActual++;
-            }else{
-                comidaPropuesta = comidas[0];
-                comidaActual = 1;
-            }
-            System.out.println("Menu propuesto: " + comidaPropuesta);
 
             ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
             prop.addReceiver(idReceptor);
@@ -73,5 +72,11 @@ public class EnviarPropuesta extends Behaviour {
     @Override
     public boolean done() {
         return true;
-    }
+    }  // Se ejecuta y termina
+
+    @Override
+    public int onEnd() {
+        return event;
+    }   // ls condicion
+
 }
