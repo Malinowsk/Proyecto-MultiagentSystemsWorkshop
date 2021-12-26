@@ -11,34 +11,24 @@ public class FSMProtocolo extends FSMBehaviour{
     public static final String REQUEST_INITIAL = "request-initial";
     private static final String ENVIAR_PROPUESTA = "enviar-propuesta";
     private static final String EVALUAR_PROPUESTA = "evaluar-propuesta";
-    private static final String ESPERAR_RESPUESTA = null;
-    private static final String ENVIAR_ZEUTHEN = null;
-    private static final String RECIBIR_ZEUTHEN = null;
-    private static final String ESPERAR_PROPUESTA = null;
-    private static final String ACUERDO = null;
-    private static final String CONFLICTO = null;
+    private static final String ESPERAR_RESPUESTA = "esperar_respuesta";
+    private static final String ENVIAR_ZEUTHEN = "enviar_zeuthen";
+    private static final String RECIBIR_ZEUTHEN = "recibir_zeuthen";
+    private static final String ESPERAR_PROPUESTA = "esperar_propuesta";
+    private static final String ACUERDO = "acuerdo";
+    private static final String CONFLICTO = "conflicto";
 
     // INICIATOR
-    public FSMProtocolo(AID aid, String[] comidas, Integer[] utilidades) {
-        DataStore ds = new DataStore();
-
-        ds.put(AID_OPONENTE, aid);
-
-        ds.put("ArregloComidas", comidas);
-        ds.put("ArregloUtilidades", utilidades);
+    public FSMProtocolo(DataStore ds) {
 
         this.crearFSM(ds, true);
 
     }
 
     // RESPONDER
-    public FSMProtocolo(ACLMessage proposeInicial, String[] comidas, Integer[] utilidades) {
-        DataStore ds = new DataStore();
+    public FSMProtocolo(ACLMessage proposeInicial, DataStore ds) {
 
         ds.put(REQUEST_INITIAL, proposeInicial);
-
-        ds.put("ArregloComidas", comidas);
-        ds.put("ArregloUtilidades", utilidades);
 
         this.crearFSM(ds, false);
 
@@ -95,13 +85,13 @@ public class FSMProtocolo extends FSMBehaviour{
 
         // Definir transiciones
 
-        String[] ToReset = {RECIBIR_ZEUTHEN};
+        String[] ToReset = {RECIBIR_ZEUTHEN, ESPERAR_RESPUESTA};
 
         this.registerTransition(ENVIAR_PROPUESTA, ESPERAR_RESPUESTA, 0);
         this.registerTransition(ENVIAR_PROPUESTA, CONFLICTO, 1); // No tengo más propuestas y debo conceder
 
-        this.registerTransition(ESPERAR_RESPUESTA, ENVIAR_ZEUTHEN, 1); // Reject
-        this.registerTransition(ESPERAR_RESPUESTA, ACUERDO, 0); // Accept
+        this.registerTransition(ESPERAR_RESPUESTA, ENVIAR_ZEUTHEN, 1 , ToReset); // Reject
+        this.registerTransition(ESPERAR_RESPUESTA, ACUERDO, 0 , ToReset); // Accept
 
         this.registerDefaultTransition(ENVIAR_ZEUTHEN, RECIBIR_ZEUTHEN);
 

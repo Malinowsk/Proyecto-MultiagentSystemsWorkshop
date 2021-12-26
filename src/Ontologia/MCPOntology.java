@@ -37,7 +37,7 @@ public class MCPOntology extends Ontology {
 
             ConceptSchema cs = new ConceptSchema(COMIDA);
             cs.add(NOMBRE_COMIDA, (PrimitiveSchema)getSchema(BasicOntology.STRING), PrimitiveSchema.MANDATORY);
-            cs.add(TIPO_COMIDA, (PrimitiveSchema)getSchema(BasicOntology.DATE), PrimitiveSchema.OPTIONAL);
+            cs.add(TIPO_COMIDA, (PrimitiveSchema)getSchema(BasicOntology.STRING), PrimitiveSchema.OPTIONAL);
             cs.add(INGREDIENTES, (PrimitiveSchema)getSchema(BasicOntology.STRING), PrimitiveSchema.OPTIONAL);
             add(cs, Comida.class);
 

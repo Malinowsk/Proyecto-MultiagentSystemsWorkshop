@@ -1,6 +1,10 @@
+import Ontologia.MCPOntology;
 import fsn.EsperarPropuestaInicial;
-import fsn.FSMProtocolo;
+import jade.content.lang.Codec;
+import jade.content.lang.sl.SLCodec;
+import jade.content.onto.Ontology;
 import jade.core.Agent;
+import jade.core.behaviours.DataStore;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -8,8 +12,20 @@ import jade.domain.FIPAException;
 
 public class AgenteResponder extends Agent {
 
+    private Codec codec = new SLCodec();
+    private Ontology ontology = MCPOntology.getInstance();
+
     protected void setup() {
-        this.addBehaviour(new EsperarPropuestaInicial());
+
+        getContentManager().registerLanguage(codec);
+        getContentManager().registerOntology(ontology);
+
+        DataStore ds = new DataStore();
+
+        ds.put("Codec", codec);
+        ds.put("Ontology", ontology);
+
+        this.addBehaviour(new EsperarPropuestaInicial(ds));
 
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());

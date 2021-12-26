@@ -2,6 +2,7 @@ package fsn;
 
 import fsn.FSMProtocolo;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -9,6 +10,13 @@ public class EsperarPropuestaInicial extends Behaviour {
 
     private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
     private Integer[] utilidades = {7,4,2,2};
+    private DataStore ds;
+
+    public EsperarPropuestaInicial(DataStore ds) {
+        ds.put("ArregloComidas", comidas);
+        ds.put("ArregloUtilidades", utilidades);
+        this.ds = ds;
+    }
 
     @Override
     public void action() {
@@ -18,8 +26,8 @@ public class EsperarPropuestaInicial extends Behaviour {
                         MessageTemplate.MatchInReplyTo("")));
 
         if (prop_ini != null) {
-            this.getDataStore().put("Mensaje entrante", prop_ini);
-            myAgent.addBehaviour(new FSMProtocolo(prop_ini,comidas,utilidades));
+            ds.put("Mensaje entrante", prop_ini);
+            myAgent.addBehaviour(new FSMProtocolo(prop_ini,ds));
         }
         else
             block();

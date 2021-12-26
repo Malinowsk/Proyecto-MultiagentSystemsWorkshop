@@ -1,5 +1,9 @@
 package fsn;
 
+import Ontologia.PedirComida;
+import jade.content.ContentElement;
+import jade.content.lang.Codec;
+import jade.content.onto.OntologyException;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
@@ -22,38 +26,43 @@ public class EvaluarPropuesta extends Behaviour {
 
         ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
 
-        String contenido = msg.getContent();
+        try {
+            ContentElement ce = myAgent.getContentManager().extractContent(msg);
+            PedirComida pc = (PedirComida) ce;
 
-        Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
+            String contenido = pc.getComida().getNombre();
 
-        int i = 0;
-        while(contenido!= comidas[i]){
-            i++;
+            Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
+
+            int i = 0;
+            while(contenido!= comidas[i]){
+                i++;
+            }
+            int indiceContenido = i;
+
+            if (utilidades[indiceMejorPropuesta] <= utilidades[indiceContenido]) {
+
+                ACLMessage resp = msg.createReply();
+                resp.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                resp.setContent("Aceptado");
+                event = 0;
+                // Envío la respuesta
+                myAgent.send(resp);
+
+            } else {
+                ACLMessage resp = msg.createReply();
+                resp.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                resp.setContent(comidas[indiceMejorPropuesta]);
+                this.getDataStore().put("PropuestaDelOtro", contenido);
+                event = 1;
+                // Envío la respuesta
+                myAgent.send(resp);
+            }
+
+        } catch (Codec.CodecException | OntologyException e) {
+            e.printStackTrace();
         }
-        int indiceContenido = i;
 
-        if (utilidades[indiceMejorPropuesta] <= utilidades[indiceContenido]) {
-
-            ACLMessage resp = msg.createReply();
-            resp.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-            resp.setContent("Aceptado");
-            event = 0;
-
-            // Envío la respuesta
-            myAgent.send(resp);
-
-        } else {
-            ACLMessage resp = msg.createReply();
-            resp.setPerformative(ACLMessage.REJECT_PROPOSAL);
-            resp.setContent(comidas[indiceMejorPropuesta]);
-            this.getDataStore().put("PropuestaDelOtro", contenido);
-            event = 1;
-
-
-
-            // Envío la respuesta
-            myAgent.send(resp);
-        }
     }
 
     @Override
