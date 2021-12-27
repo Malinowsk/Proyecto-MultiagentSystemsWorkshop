@@ -32,7 +32,12 @@ public class AgenteResponder extends Agent {
         ServiceDescription sd = new ServiceDescription();
         sd.setType("negociacion");
         sd.setName("comidas");
+        sd.addLanguages(codec.getName());
+        sd.addOntologies(ontology.getName());
         dfd.addServices(sd);
+        dfd.addLanguages(codec.getName());
+        dfd.addOntologies(ontology.getName());
+
         try{
             DFService.register(this, dfd);
         }

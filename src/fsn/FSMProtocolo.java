@@ -30,15 +30,18 @@ public class FSMProtocolo extends FSMBehaviour{
 
         ds.put(REQUEST_INITIAL, proposeInicial);
 
+
+        System.out.println("rerer");
         this.crearFSM(ds, false);
 
     }
 
     private void crearFSM(DataStore ds, boolean ini) {
 
+
+
         // Instanciamos los comportamientos
-        EnviarPropuesta enviar_propuesta = new EnviarPropuesta();
-        enviar_propuesta.setDataStore(ds);
+        EnviarPropuesta enviar_propuesta = new EnviarPropuesta(ds);
 
         EsperarRespuesta esperar_respuesta = new EsperarRespuesta();
         esperar_respuesta.setDataStore(ds);

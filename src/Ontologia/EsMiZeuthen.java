@@ -3,12 +3,11 @@ import jade.content.Predicate;
 
 public class EsMiZeuthen implements Predicate{
 
+    Float valor;
 
     public EsMiZeuthen(Float valor) {
         this.valor = valor;
     }
-
-    Float valor;
 
     public Float getValor() {
         return valor;

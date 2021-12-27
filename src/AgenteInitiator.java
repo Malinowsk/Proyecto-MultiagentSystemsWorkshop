@@ -28,7 +28,11 @@ public class AgenteInitiator extends Agent {
         ServiceDescription sd = new ServiceDescription();
         sd.setType("negociacion");
         sd.setName("comidas");
+        sd.addLanguages(codec.getName());
+        sd.addOntologies(ontology.getName());
         template.addServices(sd);
+        template.addLanguages(codec.getName());
+        template.addOntologies(ontology.getName());
 
         DataStore ds = new DataStore();
 
@@ -36,7 +40,6 @@ public class AgenteInitiator extends Agent {
         ds.put("ArregloUtilidades", utilidades);
         ds.put("Codec", codec);
         ds.put("Ontology", ontology);
-
         try{
             DFAgentDescription[] result = DFService.search(this, template);
             if (result.length > 0){

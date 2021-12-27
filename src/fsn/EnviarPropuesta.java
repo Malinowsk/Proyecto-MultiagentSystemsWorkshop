@@ -7,6 +7,7 @@ import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -24,15 +25,18 @@ public class EnviarPropuesta extends Behaviour {
     private boolean esPropuestaInicial = true;
 
 
-    public EnviarPropuesta (){
-        if((AID) getDataStore().get(FSMProtocolo.AID_OPONENTE) == null){
+    public EnviarPropuesta (DataStore ds){
+
+
+        if((AID) ds.get(FSMProtocolo.AID_OPONENTE) == null){
             esPropuestaInicial=false;
         }
         else
         {
-            idReceptor = (AID) getDataStore().get(FSMProtocolo.AID_OPONENTE);
+            idReceptor = (AID) ds.get(FSMProtocolo.AID_OPONENTE);
         }
-        comidas = (String[]) getDataStore().get("ArregloComidas");
+        comidas = (String[]) ds.get("ArregloComidas");
+        setDataStore(ds);
     }
 
     @Override
