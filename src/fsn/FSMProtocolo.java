@@ -30,8 +30,6 @@ public class FSMProtocolo extends FSMBehaviour{
 
         ds.put(REQUEST_INITIAL, proposeInicial);
 
-
-        System.out.println("rerer");
         this.crearFSM(ds, false);
 
     }

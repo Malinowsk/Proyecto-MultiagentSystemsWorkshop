@@ -5,6 +5,7 @@ import Ontologia.PedirComida;
 import jade.content.lang.Codec;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
+import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
@@ -65,12 +66,15 @@ public class EnviarPropuesta extends Behaviour {
             prop.setOntology(ontology.getName());
 
             Comida comida = new Comida(comidaPropuesta);
+            PedirComida pedirComida = new PedirComida(comida);
 
             try {
-                myAgent.getContentManager().fillContent(prop,new PedirComida(comida));
-            } catch (Codec.CodecException | OntologyException e) { e.printStackTrace(); }
+                myAgent.getContentManager().fillContent(prop,new Action(idReceptor,pedirComida));
+            } catch (Codec.CodecException | OntologyException e) {
+                System.out.println("sdfsdf");
+                e.printStackTrace(); }
 
-            this.getDataStore().put("Propuesta", prop);
+            this.getDataStore().put("MensajeSaliente", prop);
 
             esPropuestaInicial = false;
 
@@ -82,8 +86,6 @@ public class EnviarPropuesta extends Behaviour {
 
             ACLMessage resp = msg.createReply();
             resp.setPerformative(ACLMessage.PROPOSE);
-            resp.setConversationId("CONV-" + myAgent.getName());
-            resp.setReplyWith(myAgent.getName() + System.currentTimeMillis());
 
             Codec codec = (Codec) getDataStore().get("Codec");
             Ontology ontology = (Ontology) getDataStore().get("Ontology");
@@ -93,11 +95,13 @@ public class EnviarPropuesta extends Behaviour {
 
             Comida comida = new Comida(comidaPropuesta);
 
+            PedirComida pedirComida = new PedirComida(comida);
+
             try {
-                myAgent.getContentManager().fillContent(resp,new PedirComida(comida));
+                myAgent.getContentManager().fillContent(resp,new Action(idReceptor,pedirComida));
             } catch (Codec.CodecException | OntologyException e) { e.printStackTrace(); }
 
-            this.getDataStore().put("Propuesta", resp);
+            this.getDataStore().put("MensajeSaliente", resp);
 
             myAgent.send(resp);
         }

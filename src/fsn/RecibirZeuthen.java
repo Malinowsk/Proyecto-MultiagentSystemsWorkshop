@@ -18,7 +18,7 @@ public class RecibirZeuthen extends Behaviour {
     @Override
     public void action() {
 
-        ACLMessage msgDataStore = (ACLMessage) getDataStore().get("");
+        ACLMessage msgDataStore = (ACLMessage) getDataStore().get("MensajeSaliente");
 
         ACLMessage msg = myAgent.receive(MessageTemplate.and(MessageTemplate.MatchConversationId(msgDataStore.getConversationId()),
                 MessageTemplate.MatchInReplyTo(msgDataStore.getReplyWith())));

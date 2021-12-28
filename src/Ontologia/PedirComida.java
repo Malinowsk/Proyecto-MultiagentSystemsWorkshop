@@ -10,6 +10,12 @@ public class PedirComida implements AgentAction {
 
     public PedirComida(Comida comida) {
         this.comida = comida;
+        this.lugar = "";
+    }
+
+    public PedirComida() {
+        this.comida = new Comida();
+        this.lugar = "";
     }
 
     public Comida getComida() {

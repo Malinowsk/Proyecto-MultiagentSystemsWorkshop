@@ -18,31 +18,37 @@ public class EnviarZeuthen extends Behaviour {
 
 
     public EnviarZeuthen (){
-        comidas = (String[]) getDataStore().get("ArregloComidas");
-        utilidades = (Integer[]) getDataStore().get("ArregloUtilidades");
+
     }
 
     @Override
     public void action() {
 
+        String[] comidas = (String[]) getDataStore().get("ArregloComidas");
+        Integer[] utilidades = (Integer[]) getDataStore().get("ArregloUtilidades");
+
         String propuestaDelOtro =(String) getDataStore().get("PropuestaDelOtro");
         Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
 
         int i = 0;
-        while(propuestaDelOtro!= comidas[i]){
-            i++;
+        float zeuthen;
+
+        if (propuestaDelOtro == null)
+            zeuthen=1;
+        else {
+
+            while (propuestaDelOtro != comidas[i]) {
+                i++;
+            }
+
+            Integer indiceContenidoDelOtro = i;
+
+            zeuthen = ((float) utilidades[indiceMejorPropuesta] - (float) utilidades[indiceContenidoDelOtro]) / (float) utilidades[indiceMejorPropuesta];
         }
-
-        Integer indiceContenidoDelOtro = i;
-
-        float zeuthen = ( (float)utilidades[indiceMejorPropuesta] - (float)utilidades[indiceContenidoDelOtro])/(float)utilidades[indiceMejorPropuesta];
-
         ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
 
         ACLMessage resp = msg.createReply();
         resp.setPerformative(ACLMessage.INFORM);
-        resp.setConversationId("CONV-" + myAgent.getName());
-        resp.setReplyWith(myAgent.getName() + System.currentTimeMillis());
 
 
         Codec codec = (Codec) getDataStore().get("Codec");

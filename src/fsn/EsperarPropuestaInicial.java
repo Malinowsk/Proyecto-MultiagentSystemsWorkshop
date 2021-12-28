@@ -13,40 +13,28 @@ import jade.lang.acl.MessageTemplate;
 
 public class EsperarPropuestaInicial extends Behaviour {
 
-    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
+    private String[] comidas = {"Pollo","Fideos","Milanesa","Pizza"};
     private Integer[] utilidades = {7,4,2,2};
-    private DataStore ds;
+    //private DataStore ds;
     private boolean recibido = false;
 
     public EsperarPropuestaInicial(DataStore ds) {
         ds.put("ArregloComidas", comidas);
         ds.put("ArregloUtilidades", utilidades);
-        this.ds = ds;
+        setDataStore(ds);
     }
 
     @Override
     public void action() {
 
-        Codec codec = (Codec) ds.get("Codec");
-        Ontology ontology = (Ontology) ds.get("Ontology");
+        Codec codec = (Codec) getDataStore().get("Codec");
+        Ontology ontology = (Ontology) getDataStore().get("Ontology");
 
         ACLMessage prop_ini = myAgent.receive(MessageTemplate.and(MessageTemplate.MatchLanguage(codec.getName()),MessageTemplate.MatchOntology(ontology.getName())));
         if (prop_ini != null) {
-            ContentElement ce;
-            try {
-                ce = myAgent.getContentManager().extractContent(prop_ini);
-                PedirComida pc = (PedirComida) ce;
-                String contenido = pc.getComida().getNombre();
-                System.out.println("66");
-            } catch (Codec.CodecException e) {
-                e.printStackTrace();
-            } catch (OntologyException e) {
-                e.printStackTrace();
-            }
-
             recibido=true;
-            ds.put("Mensaje entrante", prop_ini);
-            myAgent.addBehaviour(new FSMProtocolo(prop_ini,ds));
+            getDataStore().put("Mensaje entrante", prop_ini);
+            myAgent.addBehaviour(new FSMProtocolo(prop_ini,getDataStore()));
         }
         else
             block();

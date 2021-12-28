@@ -12,8 +12,8 @@ public class EsperarRespuesta extends Behaviour {
     @Override
     public void action() {
 
-        ACLMessage msgDataStore = (ACLMessage) getDataStore().get("Propuesta");
-
+        ACLMessage msgDataStore = (ACLMessage) getDataStore().get("MensajeSaliente");
+        System.out.println(myAgent.getLocalName()+msgDataStore);
         ACLMessage msg = myAgent.receive(MessageTemplate.and(MessageTemplate.MatchConversationId(msgDataStore.getConversationId()),
                 MessageTemplate.MatchInReplyTo(msgDataStore.getReplyWith())));
 
@@ -25,7 +25,6 @@ public class EsperarRespuesta extends Behaviour {
                 event = 0;
             } else {
                 this.getDataStore().put("Mensaje entrante", msg);
-                this.getDataStore().put("PropuestaDelOtro", msg.getContent());
                 event = 1;
             }
 

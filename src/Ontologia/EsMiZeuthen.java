@@ -5,6 +5,10 @@ public class EsMiZeuthen implements Predicate{
 
     Float valor;
 
+    public EsMiZeuthen() {
+        this.valor = 0.0f;
+    }
+
     public EsMiZeuthen(Float valor) {
         this.valor = valor;
     }

@@ -10,6 +10,14 @@ public class Comida implements Concept{
 
     public Comida(String nombre) {
         this.nombre = nombre;
+        this.tipoComida = "";
+        this.ingredientes = "";
+    }
+
+    public Comida() {
+        this.nombre = "";
+        this.tipoComida = "";
+        this.ingredientes = "";
     }
 
     public String getNombre() {
