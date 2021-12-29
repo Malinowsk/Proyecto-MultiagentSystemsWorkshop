@@ -14,6 +14,8 @@ public class EsperarPropuesta extends Behaviour {
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
             recibido = true;
+            System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+ msg.getSender());
+            System.out.println("cont del mensaje " +msg.getContent());
             this.getDataStore().put("Mensaje entrante", msg);
         }else{
             block();

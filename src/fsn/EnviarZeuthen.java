@@ -30,7 +30,9 @@ public class EnviarZeuthen extends Behaviour {
         String propuestaDelOtro =(String) getDataStore().get("PropuestaDelOtro");
 
         Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
-
+                                            // agente1 ->0 ; agente2 -> null(0)
+                                            // agente1 ->0(1) ; agente1 ->0
+                                            // agente1 ->1 ; agente2 ->0(1)
         if(indiceMejorPropuesta==null)
             indiceMejorPropuesta=0;
 
@@ -80,8 +82,10 @@ public class EnviarZeuthen extends Behaviour {
 
         this.getDataStore().put("ZeuthenNuestro", zeuthen);
 
-        myAgent.send(resp);
+        if ((boolean) getDataStore().get("proponedor"))
+            getDataStore().put("IndiceComidas", indiceMejorPropuesta+1 );
 
+        myAgent.send(resp);
 
     }
 

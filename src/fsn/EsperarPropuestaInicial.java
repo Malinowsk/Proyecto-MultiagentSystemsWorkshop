@@ -13,8 +13,12 @@ import jade.lang.acl.MessageTemplate;
 
 public class EsperarPropuestaInicial extends Behaviour {
 
-    private String[] comidas = {"Pollo","Fideos","Milanesa","Pizza"};
+    private String[] comidas = {"Pollo","Pizza","Milanesa","Fideos"};
     private Integer[] utilidades = {7,4,2,2};
+
+    //private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
+    //private Integer[] utilidades = {5,4,2,1};
+
     private boolean recibido = false;
 
     public EsperarPropuestaInicial(DataStore ds) {

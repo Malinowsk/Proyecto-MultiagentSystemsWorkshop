@@ -24,7 +24,7 @@ public class RecibirZeuthen extends Behaviour {
                 MessageTemplate.MatchInReplyTo(msgDataStore.getReplyWith())));
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
-            System.out.println("Respuesta del cliente: " + msg.getContent());
+
             ContentElement ce = null;
             try {
                 ce = myAgent.getContentManager().extractContent(msg);
@@ -36,7 +36,14 @@ public class RecibirZeuthen extends Behaviour {
                 if (pc.getValor() > (float)getDataStore().get("ZeuthenNuestro")) {
                     event = 0;
                 } else {
-                    event = 1;
+                    if(pc.getValor() == (float)getDataStore().get("ZeuthenNuestro")){
+                        if ((boolean) getDataStore().get("proponedor"))
+                            event = 1;
+                        else
+                            event = 0;
+                    }
+                    else
+                        event = 1;
                 }
 
             } catch (Codec.CodecException | OntologyException e) {

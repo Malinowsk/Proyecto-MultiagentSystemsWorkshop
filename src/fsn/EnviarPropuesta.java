@@ -47,6 +47,7 @@ public class EnviarPropuesta extends Behaviour {
             comidaPropuesta = comidas[comidaActual];
             System.out.println("Menu propuesto: " + comidaPropuesta);
             getDataStore().put("IndiceComidas", comidaActual);
+
             comidaActual++;
 
             if(esPropuestaInicial){

@@ -28,6 +28,8 @@ public class EvaluarPropuesta extends Behaviour {
             Integer[] utilidades = (Integer[]) getDataStore().get("ArregloUtilidades");
 
             // extraer el contenido del mensaje que nos propusieron
+            System.out.println("cont del mensaje " +msg.getContent());
+            System.out.println("emisor del mensaje "+msg.getSender());
             ContentElement ce = myAgent.getContentManager().extractContent(msg);
             Action ac = (Action) ce;
             PedirComida pc = (PedirComida) ac.getAction();
@@ -62,9 +64,11 @@ public class EvaluarPropuesta extends Behaviour {
                 //resp.setContent(comidas[indiceMejorPropuesta]);
                 event = 1;
                 // Envío la respuesta
+                System.out.println("contenido del otro : " + contenido);
                 this.getDataStore().put("PropuestaDelOtro", contenido);
-                myAgent.send(resp);
+                this.getDataStore().put("proponedor", false);
                 this.getDataStore().put("MensajeSaliente", resp);
+                myAgent.send(resp);
             }
 
         } catch (Codec.CodecException | OntologyException e) {
