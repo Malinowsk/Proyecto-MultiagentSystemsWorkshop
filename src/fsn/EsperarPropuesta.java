@@ -6,17 +6,22 @@ import jade.lang.acl.MessageTemplate;
 
 public class EsperarPropuesta extends Behaviour {
 
+    int event = 1;
     boolean recibido = false;
 
     @Override
     public void action() {
-        ACLMessage msg = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+        ACLMessage msg = myAgent.receive(MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE),MessageTemplate.MatchPerformative(ACLMessage.CANCEL)));
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
             recibido = true;
-            System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+ msg.getSender());
-            System.out.println("cont del mensaje " +msg.getContent());
-            this.getDataStore().put("Mensaje entrante", msg);
+            if(msg.getPerformative() == ACLMessage.CANCEL){
+                event = 0;
+            }
+            else{
+                this.getDataStore().put("Mensaje entrante", msg);
+                event = 1;
+            }
         }else{
             block();
         }
@@ -32,4 +37,10 @@ public class EsperarPropuesta extends Behaviour {
     public boolean done() {
         return recibido;
     }
+
+    @Override
+    public int onEnd() {
+        return event;
+    }
+
 }

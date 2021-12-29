@@ -84,7 +84,7 @@ public class FSMProtocolo extends FSMBehaviour{
 
         // Definir transiciones
 
-        String[] ToReset = {RECIBIR_ZEUTHEN, ESPERAR_RESPUESTA};
+        String[] ToReset = {RECIBIR_ZEUTHEN, ESPERAR_RESPUESTA, ESPERAR_PROPUESTA};
 
         this.registerTransition(ENVIAR_PROPUESTA, ESPERAR_RESPUESTA, 0);
         this.registerTransition(ENVIAR_PROPUESTA, CONFLICTO, 1); // No tengo más propuestas y debo conceder
@@ -97,8 +97,8 @@ public class FSMProtocolo extends FSMBehaviour{
         this.registerTransition(RECIBIR_ZEUTHEN, ESPERAR_PROPUESTA, 1,ToReset); // Mi Z es Mayor
         this.registerTransition(RECIBIR_ZEUTHEN, ENVIAR_PROPUESTA, 0,ToReset); // Mi Z es Menor
 
-        this.registerTransition(ESPERAR_PROPUESTA, EVALUAR_PROPUESTA, 0); // Recibi propuesta
-        this.registerTransition(ESPERAR_PROPUESTA, CONFLICTO, 1); // Recibi Cancel
+        this.registerTransition(ESPERAR_PROPUESTA, EVALUAR_PROPUESTA, 1, ToReset) ; // Recibi propuesta
+        this.registerTransition(ESPERAR_PROPUESTA, CONFLICTO, 0, ToReset); // Recibi Cancel
 
         this.registerTransition(EVALUAR_PROPUESTA, ENVIAR_ZEUTHEN, 1); // Reject
         this.registerTransition(EVALUAR_PROPUESTA, ACUERDO, 0); // Accept

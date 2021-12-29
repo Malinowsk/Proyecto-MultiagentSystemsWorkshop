@@ -28,11 +28,8 @@ public class RecibirZeuthen extends Behaviour {
             ContentElement ce = null;
             try {
                 ce = myAgent.getContentManager().extractContent(msg);
-
                 EsMiZeuthen pc = (EsMiZeuthen) ce;
-
                 recibido = true;
-
                 if (pc.getValor() > (float)getDataStore().get("ZeuthenNuestro")) {
                     event = 0;
                 } else {

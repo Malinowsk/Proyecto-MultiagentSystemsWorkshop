@@ -14,10 +14,11 @@ import jade.proto.SubscriptionInitiator;
 
 public class AgenteInitiator extends Agent {
 
-    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza"};
-    private Integer[] utilidades = {5,4,2,1};
+    private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza","Pure","Asado","Hamburguesa","sopa","Tarta","Empanadas"};
+    private Integer[] utilidades = {20,18,17,16,14,8,6,5,1,0};
     private Codec codec = new SLCodec();
     private Ontology ontology = MCPOntology.getInstance();
+    private DFAgentDescription mens ;
 
     protected void setup() {
 
@@ -34,6 +35,7 @@ public class AgenteInitiator extends Agent {
         template.addLanguages(codec.getName());
         template.addOntologies(ontology.getName());
 
+        mens= template;
         DataStore ds = new DataStore();
 
         ds.put("ArregloComidas", comidas);
@@ -67,14 +69,9 @@ public class AgenteInitiator extends Agent {
         }
     }
 
-    /*@Override
+
     protected void takeDown() {
-        try {
-            DFService.createCancelMessage(this, getDefaultDF(), ); /// Nos falta el ultimo parametro
-        }
-        catch (FIPAException fe){
-            fe.printStackTrace();
-        }
-    }*/
+        DFService.createCancelMessage(this, getDefaultDF(), DFService.createSubscriptionMessage(this, getDefaultDF(), mens, null) ); /// Nos falta el ultimo parametro
+    }
 
 }

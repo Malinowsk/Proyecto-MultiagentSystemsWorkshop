@@ -10,11 +10,6 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-
-
-import java.nio.channels.ScatteringByteChannel;
-import java.util.ArrayList;
 
 public class EnviarPropuesta extends Behaviour {
 
@@ -43,15 +38,13 @@ public class EnviarPropuesta extends Behaviour {
     @Override
     public void action() {
 
-        if (comidaActual < comidas.length){
+        if (comidaActual < comidas.length ){
             comidaPropuesta = comidas[comidaActual];
-            System.out.println("Menu propuesto: " + comidaPropuesta);
             getDataStore().put("IndiceComidas", comidaActual);
 
             comidaActual++;
 
             if(esPropuestaInicial){
-                System.out.println(idReceptor);
                 ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
                 prop.addReceiver(idReceptor);
                 prop.setConversationId("CONV-" + myAgent.getName());
@@ -93,7 +86,7 @@ public class EnviarPropuesta extends Behaviour {
                 Comida comida = new Comida(comidaPropuesta);
 
                 PedirComida pedirComida = new PedirComida(comida);
-                System.out.println("msg.getSender()" + msg.getSender());
+
                 try {
                     myAgent.getContentManager().fillContent(resp,new Action(msg.getSender(),pedirComida));
                 } catch (Codec.CodecException | OntologyException e) { e.printStackTrace(); }
@@ -104,6 +97,11 @@ public class EnviarPropuesta extends Behaviour {
             }
         }else{
             event = 1;
+            ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
+            ACLMessage resp = msg.createReply();
+            resp.setPerformative(ACLMessage.CANCEL);
+
+            myAgent.send(resp);
         }
     }
 

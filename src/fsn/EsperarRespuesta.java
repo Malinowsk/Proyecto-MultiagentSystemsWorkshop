@@ -13,12 +13,11 @@ public class EsperarRespuesta extends Behaviour {
     public void action() {
 
         ACLMessage msgDataStore = (ACLMessage) getDataStore().get("MensajeSaliente");
-        System.out.println(myAgent.getLocalName()+msgDataStore);
+
         ACLMessage msg = myAgent.receive(MessageTemplate.and(MessageTemplate.MatchConversationId(msgDataStore.getConversationId()),
                 MessageTemplate.MatchInReplyTo(msgDataStore.getReplyWith())));
 
         if (msg != null) {  // Si recibi el mensaje, lo proceso
-            System.out.println("Respuesta del cliente: " + msg.getContent());
             recibido = true;
 
             if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
