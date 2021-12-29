@@ -15,7 +15,6 @@ public class EsperarPropuestaInicial extends Behaviour {
 
     private String[] comidas = {"Pollo","Fideos","Milanesa","Pizza"};
     private Integer[] utilidades = {7,4,2,2};
-    //private DataStore ds;
     private boolean recibido = false;
 
     public EsperarPropuestaInicial(DataStore ds) {

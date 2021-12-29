@@ -28,23 +28,38 @@ public class EnviarZeuthen extends Behaviour {
         Integer[] utilidades = (Integer[]) getDataStore().get("ArregloUtilidades");
 
         String propuestaDelOtro =(String) getDataStore().get("PropuestaDelOtro");
+
         Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
+
+        if(indiceMejorPropuesta==null)
+            indiceMejorPropuesta=0;
 
         int i = 0;
         float zeuthen;
 
+        System.out.println(myAgent.getLocalName() + " la prop del otro es: " + propuestaDelOtro);
+
         if (propuestaDelOtro == null)
             zeuthen=1;
         else {
+            System.out.println(propuestaDelOtro);
 
-            while (propuestaDelOtro != comidas[i]) {
+            while (!propuestaDelOtro.equals(comidas[i])) {
+                System.out.println(comidas[i]);
                 i++;
             }
-
+            System.out.println(comidas[i]);
             Integer indiceContenidoDelOtro = i;
 
+            System.out.println("indiceContenidoDelOtro" + indiceContenidoDelOtro);
+            System.out.println("utilidades[indiceContenidoDelOtro]" + utilidades[indiceContenidoDelOtro]);
+            System.out.println("indiceMejorPropuesta" + indiceMejorPropuesta);
+            System.out.println("utilidades[indiceMejorPropuesta]" + utilidades[indiceMejorPropuesta]);
+
             zeuthen = ((float) utilidades[indiceMejorPropuesta] - (float) utilidades[indiceContenidoDelOtro]) / (float) utilidades[indiceMejorPropuesta];
+            System.out.println(zeuthen);
         }
+
         ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
 
         ACLMessage resp = msg.createReply();

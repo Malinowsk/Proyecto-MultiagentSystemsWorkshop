@@ -28,8 +28,6 @@ public class FSMProtocolo extends FSMBehaviour{
     // RESPONDER
     public FSMProtocolo(ACLMessage proposeInicial, DataStore ds) {
 
-        ds.put(REQUEST_INITIAL, proposeInicial);
-
         this.crearFSM(ds, false);
 
     }

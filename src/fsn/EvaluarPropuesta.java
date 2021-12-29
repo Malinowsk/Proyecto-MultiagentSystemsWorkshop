@@ -20,36 +20,28 @@ public class EvaluarPropuesta extends Behaviour {
     @Override
     public void action() {
 
-        ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
+        ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante"); // fijarse que pasa para initiator
 
         try {
 
             String[] comidas = (String[]) getDataStore().get("ArregloComidas");
             Integer[] utilidades = (Integer[]) getDataStore().get("ArregloUtilidades");
 
+            // extraer el contenido del mensaje que nos propusieron
             ContentElement ce = myAgent.getContentManager().extractContent(msg);
-
-
             Action ac = (Action) ce;
-
             PedirComida pc = (PedirComida) ac.getAction();
-
             String contenido = pc.getComida().getNombre();
 
-            Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
-
-            System.out.println(indiceMejorPropuesta);
-
-            System.out.println(contenido);
-            System.out.println(comidas[0]);
+            // indice de la comida de la propuesta del otro
             int i = 0;
             while(!contenido.equals(comidas[i])){
-                System.out.println(comidas[i]);
                 i++;
             }
             int indiceContenido = i;
 
-            System.out.println(indiceContenido);
+            // indice de mi mejor propuesta
+            Integer indiceMejorPropuesta = (Integer) getDataStore().get("IndiceComidas");
 
             if(indiceMejorPropuesta==null)
                 indiceMejorPropuesta=0;
@@ -67,9 +59,10 @@ public class EvaluarPropuesta extends Behaviour {
 
                 ACLMessage resp = msg.createReply();
                 resp.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                resp.setContent(comidas[indiceMejorPropuesta]);
+                //resp.setContent(comidas[indiceMejorPropuesta]);
                 event = 1;
                 // Envío la respuesta
+                this.getDataStore().put("PropuestaDelOtro", contenido);
                 myAgent.send(resp);
                 this.getDataStore().put("MensajeSaliente", resp);
             }

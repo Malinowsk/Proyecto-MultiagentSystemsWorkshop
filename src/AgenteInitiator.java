@@ -43,7 +43,7 @@ public class AgenteInitiator extends Agent {
         try{
             DFAgentDescription[] result = DFService.search(this, template);
             if (result.length > 0){
-                ds.put(FSMProtocolo.AID_OPONENTE, result[0].getName());
+                ds.put(FSMProtocolo.AID_OPONENTE, result[0].getName()); // seteamos en el ds el id del oponente
                 addBehaviour(new FSMProtocolo(ds));
             }
             else {
@@ -54,7 +54,7 @@ public class AgenteInitiator extends Agent {
                         try {
                             DFAgentDescription[] result = DFService.decodeNotification(inform.getContent());
                             if (result[0].getAllServices().hasNext()){
-                                ds.put(FSMProtocolo.AID_OPONENTE, result[0].getName());
+                                ds.put(FSMProtocolo.AID_OPONENTE, result[0].getName()); // seteamos en el ds el id del oponente
                                 addBehaviour(new FSMProtocolo(ds));
                             }
                         } catch (FIPAException fe) { fe.printStackTrace();}

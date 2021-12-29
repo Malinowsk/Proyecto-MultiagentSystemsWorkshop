@@ -45,65 +45,64 @@ public class EnviarPropuesta extends Behaviour {
 
         if (comidaActual < comidas.length){
             comidaPropuesta = comidas[comidaActual];
+            System.out.println("Menu propuesto: " + comidaPropuesta);
+            getDataStore().put("IndiceComidas", comidaActual);
             comidaActual++;
+
+            if(esPropuestaInicial){
+                System.out.println(idReceptor);
+                ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
+                prop.addReceiver(idReceptor);
+                prop.setConversationId("CONV-" + myAgent.getName());
+                prop.setReplyWith(myAgent.getName() + System.currentTimeMillis());
+
+                Codec codec = (Codec) getDataStore().get("Codec");
+                Ontology ontology = (Ontology) getDataStore().get("Ontology");
+
+                prop.setLanguage(codec.getName());
+                prop.setOntology(ontology.getName());
+
+                Comida comida = new Comida(comidaPropuesta);
+                PedirComida pedirComida = new PedirComida(comida);
+
+                try {
+                    myAgent.getContentManager().fillContent(prop,new Action(idReceptor,pedirComida));
+                } catch (Codec.CodecException | OntologyException e) {
+                    e.printStackTrace(); }
+
+                this.getDataStore().put("MensajeSaliente", prop);
+
+                esPropuestaInicial = false;
+
+                myAgent.send(prop);
+            }
+            else
+            {
+                ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
+
+                ACLMessage resp = msg.createReply();
+                resp.setPerformative(ACLMessage.PROPOSE);
+
+                Codec codec = (Codec) getDataStore().get("Codec");
+                Ontology ontology = (Ontology) getDataStore().get("Ontology");
+
+                resp.setLanguage(codec.getName());
+                resp.setOntology(ontology.getName());
+
+                Comida comida = new Comida(comidaPropuesta);
+
+                PedirComida pedirComida = new PedirComida(comida);
+                System.out.println("msg.getSender()" + msg.getSender());
+                try {
+                    myAgent.getContentManager().fillContent(resp,new Action(msg.getSender(),pedirComida));
+                } catch (Codec.CodecException | OntologyException e) { e.printStackTrace(); }
+
+                this.getDataStore().put("MensajeSaliente", resp);
+
+                myAgent.send(resp);
+            }
         }else{
             event = 1;
-        }
-        System.out.println("Menu propuesto: " + comidaPropuesta);
-        getDataStore().put("IndiceComidas", comidaActual);
-
-        if(esPropuestaInicial){
-
-            ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
-            prop.addReceiver(idReceptor);
-            prop.setConversationId("CONV-" + myAgent.getName());
-            prop.setReplyWith(myAgent.getName() + System.currentTimeMillis());
-
-            Codec codec = (Codec) getDataStore().get("Codec");
-            Ontology ontology = (Ontology) getDataStore().get("Ontology");
-
-            prop.setLanguage(codec.getName());
-            prop.setOntology(ontology.getName());
-
-            Comida comida = new Comida(comidaPropuesta);
-            PedirComida pedirComida = new PedirComida(comida);
-
-            try {
-                myAgent.getContentManager().fillContent(prop,new Action(idReceptor,pedirComida));
-            } catch (Codec.CodecException | OntologyException e) {
-                System.out.println("sdfsdf");
-                e.printStackTrace(); }
-
-            this.getDataStore().put("MensajeSaliente", prop);
-
-            esPropuestaInicial = false;
-
-            myAgent.send(prop);
-        }
-        else
-        {
-            ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
-
-            ACLMessage resp = msg.createReply();
-            resp.setPerformative(ACLMessage.PROPOSE);
-
-            Codec codec = (Codec) getDataStore().get("Codec");
-            Ontology ontology = (Ontology) getDataStore().get("Ontology");
-
-            resp.setLanguage(codec.getName());
-            resp.setOntology(ontology.getName());
-
-            Comida comida = new Comida(comidaPropuesta);
-
-            PedirComida pedirComida = new PedirComida(comida);
-
-            try {
-                myAgent.getContentManager().fillContent(resp,new Action(idReceptor,pedirComida));
-            } catch (Codec.CodecException | OntologyException e) { e.printStackTrace(); }
-
-            this.getDataStore().put("MensajeSaliente", resp);
-
-            myAgent.send(resp);
         }
     }
 
