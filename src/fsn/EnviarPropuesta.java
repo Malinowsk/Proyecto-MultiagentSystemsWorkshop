@@ -96,12 +96,19 @@ public class EnviarPropuesta extends Behaviour {
                 myAgent.send(resp);
             }
         }else{
-            event = 1;
-            ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
-            ACLMessage resp = msg.createReply();
-            resp.setPerformative(ACLMessage.CANCEL);
 
-            myAgent.send(resp);
+            ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
+
+            if (msg!=null) {
+                ACLMessage resp = msg.createReply();
+                resp.setPerformative(ACLMessage.CANCEL);
+
+                myAgent.send(resp);
+
+                event = 1;
+            }else {
+                event = 1;
+            }
         }
     }
 
