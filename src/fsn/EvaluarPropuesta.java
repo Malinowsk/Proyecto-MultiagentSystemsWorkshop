@@ -45,18 +45,19 @@ public class EvaluarPropuesta extends Behaviour {
                 indiceMejorPropuesta=0;
 
             if (utilidades[indiceMejorPropuesta] <= utilidades[indiceContenido]) {
-
+                System.out.println("El comensal " +myAgent.getLocalName()+ " acepta comer " + contenido+ "\n" );
                 ACLMessage resp = msg.createReply();
                 resp.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                resp.setContent("Aceptado");
+                myAgent.getContentManager().fillContent(resp,new Action(msg.getSender(),pc));
                 event = 0;
                 // Envío la respuesta
                 myAgent.send(resp);
                 this.getDataStore().put("MensajeSaliente", resp);
             } else {
-
+                System.out.println("El comensal " +myAgent.getLocalName()+ " rechaza comer " + contenido + "\n" );
                 ACLMessage resp = msg.createReply();
                 resp.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                myAgent.getContentManager().fillContent(resp,new Action(msg.getSender(),pc));
                 event = 1;
                 // Envío la respuesta
                 this.getDataStore().put("PropuestaDelOtro", contenido);

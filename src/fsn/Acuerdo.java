@@ -6,7 +6,7 @@ public class Acuerdo extends Behaviour {
 
     @Override
     public void action() {
-        System.out.println("Hubo Acuerdo");
+        System.out.println("Hubo Acuerdo del comensal " + myAgent.getLocalName());
     }
 
     @Override

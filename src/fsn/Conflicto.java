@@ -6,7 +6,7 @@ public class Conflicto extends Behaviour {
 
     @Override
     public void action() {
-        System.out.println("Hubo Conflicto");
+        System.out.println("Hubo Conflicto en el agente " + myAgent.getLocalName());
     }
 
     @Override

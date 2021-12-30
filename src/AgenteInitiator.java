@@ -15,7 +15,7 @@ import jade.proto.SubscriptionInitiator;
 public class AgenteInitiator extends Agent {
 
     private String[] comidas = {"Milanesa","Fideos","Pollo","Pizza","Pure","Asado","Hamburguesa","sopa","Tarta","Empanadas"};
-    private Integer[] utilidades = {20,18,17,16,14,8,6,5,1,0};
+    private Integer[] utilidades = {19,16,15,13,8,8,6,5,1,0};
     private Codec codec = new SLCodec();
     private Ontology ontology = MCPOntology.getInstance();
     private DFAgentDescription mens ;

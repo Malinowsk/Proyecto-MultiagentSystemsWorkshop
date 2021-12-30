@@ -44,6 +44,8 @@ public class EnviarPropuesta extends Behaviour {
 
             comidaActual++;
 
+            System.out.println("El comensal " + myAgent.getLocalName() + " propone comer " + comidaPropuesta );
+
             if(esPropuestaInicial){
                 ACLMessage prop = new ACLMessage(ACLMessage.PROPOSE);
                 prop.addReceiver(idReceptor);
@@ -96,6 +98,7 @@ public class EnviarPropuesta extends Behaviour {
                 myAgent.send(resp);
             }
         }else{
+            System.out.println("El comensal " + myAgent.getLocalName() + " se quedó sin comidas para proponer");
             event = 1;
             ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
             ACLMessage resp = msg.createReply();

@@ -16,6 +16,7 @@ public class EsperarPropuesta extends Behaviour {
         if (msg != null) {  // Si recibi el mensaje, lo proceso
             recibido = true;
             if(msg.getPerformative() == ACLMessage.CANCEL){
+                System.out.println("El comensal " + myAgent.getLocalName() + " recibe mensaje que su compañero no tiene más propuesta para hacerle" );
                 event = 0;
             }
             else{
