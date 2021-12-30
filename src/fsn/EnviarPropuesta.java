@@ -103,7 +103,6 @@ public class EnviarPropuesta extends Behaviour {
             ACLMessage msg = (ACLMessage) getDataStore().get("Mensaje entrante");
             ACLMessage resp = msg.createReply();
             resp.setPerformative(ACLMessage.CANCEL);
-
             myAgent.send(resp);
         }
     }
